@@ -1770,7 +1770,7 @@ import re
 # re.match(template, "i need no smpathy")      # match: zero occurrences match the quantifier too
 #
 # # +?, *?, {n,m}? == ? character makes quantifiers "lazy", i.e. matches as few occurrences of the quantified character as possible
-# # by default quantifiers are "greedy", i.e. matche the longest possible string
+# # by default quantifiers are "greedy", i.e. match the longest possible string
 # template = "<p>.*?</p>"
 # re.match(template, "<p>paragraph</p><p>another paragraph</p>")
 # # the template first matches the substring "<p>paragraph</p>"
@@ -1780,8 +1780,176 @@ import re
 # print(re.match(r'<[a-z]+>.*?</[a-z]+>?', '<start></start><start></start>'))
 # print(re.match(r"[-a-z0-9.=_]{6,30}@hyperskill\.(org|com|ru)$", "mainadmin@hyperskill.cot"))
 
+# # () groups symbols
+# re.match(r"(h[ao]){2}", "hoha")  # a match
+# re.match(r"(h[ao]){2}", "haa")  # no match
+# re.match(r"ha(\?!)?", "ha?!")  # a match
+# re.match(r"ha(\?!)?", "ha")  # a match
+# re.match(r"ha(\?!)?", "ha?")  # no match
+#
+# # nested groups
+# re.match(r"(([A-Z]\d){2}\.)+", "A0C3.B8K5.")  # a match
+# re.match(r"(([A-Z]\d){2}\.)+", "A0C3.")  # a match
+# re.match(r"(([A-Z]\d){2}\.)+", "A0.C3B8K5")  # no match
+#
+# # method groups() returns substrings that match template's groups
+# match = re.match(r"([Pp]ython) (\d)", "Python 3")
+# print(match.groups())  # ('Python', '3')
+#
+# # method group() return matching substring for particular group by its number (count from 1)
+# print(match.group(2))  # ('3')
+#
+# #group enumeration
+# match = re.match(r"((\w+) group) ((\w+) group)", "first group second group")
+# match.group(1)  # "first group"
+# match.group(2)  # "first"
+# match.group(3)  # "second group"
+# match.group(4)  # "second"
+#
+# # in case of repeated group method returns only last match
+# re.match(r"(Python (\d) ){2,}", "Python 2 Python 3 ").group(2)  # The output is "3"
+#
+# # group() w/o index returns whole matching substring
+# re.match(r"b.d", "bad").group()  # "bad"
+#
+# # | equals 'or'
+# re.match(r"python|java|kotlin", "python")  # a match
+#
+# # to mark the borders of the OR operator, we need to use groups
+# re.match(r"(python|kotlin) (course|lesson)", "lesson")  # no match
+# re.match(r"(python|kotlin) (course|lesson)" "python lesson")  # match
+#
+# match = re.match(r"(Value|Name|Type)Error", "TypeError")
+# print(match.group(1)) if match else print("None")
 
+# template = r"([\d]{1,}\) [a-zA-Z ]+)+"
+# string = "1) cabbage 2) carrot 3) apple 10) orange juice"
+# print(re.match(template, string))
 
+# # indexes from span attribute of the Match object, end() returns index+1
+# start = re.match(r"100%?", "100").start()  # 0
+# end_1 = re.match(r"100%?", "100").end()  # 3
+# end_2 = re.match(r"100%?", "100%").end()  # 4
+# span = re.match(r"100%?", "100%").span()  # (0, 4)
+#
+# # flags
+# lower = r'where is the money, Lebowski\?'
+# upper = r'WHERE IS THE MONEY, Lebowski\?'
+# string = 'Where Is the money, lebowski?'
+# result_lower = re.match(lower, string, flags=re.IGNORECASE)  # match
+# result_upper = re.match(upper, string, flags=re.IGNORECASE)  # match
+#
+# dot_template = 'new line .'
+# no_flag = re.match(dot_template, 'new line \n')  # None
+# with_flag = re.match(dot_template, 'new line \n', flags=re.DOTALL)  # match
+#
+# result = re.match('FLAG ME.', 'flag me\n', flags=re.IGNORECASE + re.DOTALL)  # match
 
+# # iterator can be created with iter() method
+# my_list = [1, 2, 3]
+# my_iterator = iter(my_list)
+# print(next(my_iterator))
+# print(next(my_iterator))
+#
+# # 'for' loop creates iterator from iterable object too
+# for item in my_list:
+#     print(item)
+#
+# # zip() takes several iterables and returns an iterator of tuples
+# # iteration will stop as soon as the shortest iterable is exhausted
+# short_list = [1, 2]
+# long_list = [10, 20, 30]
+# for a, b in zip(short_list, long_list):
+#     print(a, b)
+# # 1 10
+# # 2 20
+#
+# # enumerate() returns elements of an iterable along with their indexes one by one
+# months_list = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+# for i, month in enumerate(months_list):
+#     print(i + 1, month)
 
+import itertools
 
+# # itertools.chain() makes from few iterables one iterator
+# list_1 = [1, 2, 3]
+# list_2 = [4, 5]
+# for i in itertools.chain(list_1, list_2):
+#     print(i)
+#
+# # itertools.product()  returns the elements of Cartesian product one by one, i.e. all possible mixes of elements
+# first_list = ['Hi', 'Bye', 'How are you']
+# second_list = ['Jane', 'Anton']
+# for first, second in itertools.product(first_list, second_list):
+#     print(first, second)
+# # Hi Jane
+# # Hi Anton
+# # Bye Jane
+# # Bye Anton
+# # How are you Jane
+# # How are you Anton
+#
+# # itertools.combinations() returns all possible combinations of r items from an iterable containing n elements
+# my_iterator = itertools.combinations(range(1, 1000000), 2)
+# for i in range(3):
+#     print(next(my_iterator))
+# # (1, 2)
+# # (1, 3)
+# # (1, 4)
+
+# flower_names = ['rose', 'tulip', 'sunflower', 'daisy']
+# for r in range(1, 4):
+#     for i in itertools.combinations(flower_names, r):
+#         print(i)
+
+# main_courses = ['beef stew', 'fried fish']
+# price_main_courses = [28, 23]
+# desserts = ['ice-cream', 'cake']
+# price_desserts = [2, 4]
+# drinks = ['cola', 'wine']
+# price_drinks = [3, 10]
+# for first, second in zip(itertools.product(main_courses, desserts, drinks), itertools.product(price_main_courses, price_desserts, price_drinks)):
+#     sum = 0
+#     for i in second:
+#         sum += i
+#     if sum <= 30:
+#         print(" ".join(first), sum)
+
+# # sorting
+# strings = ['aa', 'b', 'aaa', 'q', 'qq']
+# strings.sort()
+# print(strings)  # ['aa', 'aaa', 'b', 'q', 'qq']
+#
+# numbers = [3, 2, 5, 4, 1]
+# print(sorted(numbers))  # [1, 2, 3, 4, 5]
+# numbers.sort(reverse=True)
+# print(numbers)  # [5, 4, 3, 2, 1]
+# print(sorted(numbers, reverse=True))  # [5, 4, 3, 2, 1]
+#
+# # key
+# names = ['Mary', 'James', 'Tom', 'Katarina', 'John']
+# names.sort(key=len)
+# print(names)  # ['Tom', 'Mary', 'John', 'James', 'Katarina']
+#
+# nums = [7, 4, 1, 5]
+# print(sorted(nums, key=lambda x: x % 2))  # [4, 7, 1, 5]
+#
+# def my_sorted(x):
+#     return x - int(x)
+#
+# numbers = [1.5, 3.2, 4.3]
+# print(sorted(numbers, key=my_sorted))  # [3.2, 4.3, 1.5]
+#
+# # reverse
+# initial_list = [1, 2, 3, 4, 5]
+# initial_list.reverse()
+# print(initial_list)   # [5, 4, 3, 2, 1]
+#
+# numbers = [1, 2, 3, 4, 5]
+# for number in reversed(numbers):
+#     print(number)
+
+# passwords = ['0vbno0re', 'ad12', 'fgghut', '4qp', 'qwerty']
+# passwords.sort(key=len)
+# for i in passwords:
+#     print(i, len(i))
