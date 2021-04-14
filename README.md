@@ -1,7 +1,7 @@
 # JetBrains Python track practice
 Practice from the [Python track](https://hyperskill.org/tracks/2) by JetBrains.
 
-## Projects:
+### Projects:
 1. [Simple Chatty Bot](https://hyperskill.org/projects/97?track=2)
    
    Console chatbot that guesses age and can give a test and check answers. Simple program to know the basic syntax of Python using variables, conditions, loops, and functions.
@@ -53,3 +53,10 @@ Practice from the [Python track](https://hyperskill.org/tracks/2) by JetBrains.
    Implementation of a matrix processor that:
    - Can read and output matrices, do operations on them - addition, multiplying by a constant, multiplying 2 matrices, compute the determinant of a square matrix, transpose and inverse them.
    - Uses *recursion* to calculate a determinant.
+   
+9. [Easy Rider Bus Company](https://hyperskill.org/projects/128/stages/685/implement) (hard lvl)
+
+   Program's purpose is to test bus routes in JSON format against requirements:
+   - Using *set* methods, *itertools* and *dpath.util* modules.
+   - Using regular expression module *re* to check data correctness.
+   - Using custom sorting to check arrival time consistency.
