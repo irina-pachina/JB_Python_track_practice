@@ -46,21 +46,27 @@ def data_validation(routes):
 def stops(routes, flag=None):
     stops_list = []
     for bus in routes:
-        index = next((i for i, item in enumerate(stops_list) if item["bus_id"] == bus["bus_id"]), None)
-        if index is not None:
-            i = len(stops_list[index]) - 2
-            if bus["stop_type"] == "S" and stops_list[index]["start_stop"] != "" or bus["stop_type"] == "F"\
-                    and stops_list[index]["finish_stop"] != "":
+        # generator is used to avoid going through the entire list because there is only one matching 'bus_id', no need to look further
+        bus_stops = next((item for item in stops_list if item["bus_id"] == bus["bus_id"]), None)
+        # alternatives:
+        # bus_stops = list(filter(lambda x: x["bus_id"] == bus["bus_id"], stops_list))
+        # bus_stops = [x for x in stops_list if x["bus_id"] == bus["bus_id"]]
+        if bus_stops is not None:
+            i = len(bus_stops) - 2
+            if bus["stop_type"] == "S" and bus_stops["start_stop"] != "" or bus["stop_type"] == "F"\
+                    and bus_stops["finish_stop"] != "":
                 print("\nBus %s has second start or finish stop" % bus["bus_id"])
                 break
             elif bus["stop_type"] == "S":
-                stops_list[index]["start_stop"] = bus["stop_name"]
+                # list comprehension returns references if iterable it iterares over with consists of objects
+                # therefore 'bus_stops["start_stop"]' access element of stops_list and change it
+                bus_stops["start_stop"] = bus["stop_name"]
             elif bus["stop_type"] == "F":
-                stops_list[index]["finish_stop"] = bus["stop_name"]
+                bus_stops["finish_stop"] = bus["stop_name"]
             elif bus["stop_type"] == "O":
-                stops_list[index]["demand_stop_%s" % i] = bus["stop_name"]
+                bus_stops["demand_stop_%s" % i] = bus["stop_name"]
             else:
-                stops_list[index]["middle_stop_%s" % i] = bus["stop_name"]
+                bus_stops["middle_stop_%s" % i] = bus["stop_name"]
         else:
             if bus["stop_type"] == "S":
                 stops_list.append({"bus_id": bus["bus_id"], "start_stop": bus["stop_name"], "finish_stop": ""})

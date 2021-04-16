@@ -1845,6 +1845,8 @@ import re
 #
 # result = re.match('FLAG ME.', 'flag me\n', flags=re.IGNORECASE + re.DOTALL)  # match
 
+# =====================
+
 # # iterator can be created with iter() method
 # my_list = [1, 2, 3]
 # my_iterator = iter(my_list)
@@ -1915,6 +1917,8 @@ import itertools
 #     if sum <= 30:
 #         print(" ".join(first), sum)
 
+# =====================
+
 # # sorting
 # strings = ['aa', 'b', 'aaa', 'q', 'qq']
 # strings.sort()
@@ -1953,3 +1957,76 @@ import itertools
 # passwords.sort(key=len)
 # for i in passwords:
 #     print(i, len(i))
+
+# =====================
+
+# # generator functions
+# def multiples(a, n):
+#     i = 1
+#     while i <= n:
+#         yield a*i
+#         i += 1
+# multiples_of_three = multiples(3,5)
+# print(next(multiples_of_three))  # 3
+# print(next(multiples_of_three))  # 6
+
+# # generator can be defined as list comprehension but with () instead of []
+# numbers = [1, 2, 3]
+# my_generator = (n ** 2 for n in numbers)
+# print(next(my_generator))  # 1
+# print(next(my_generator))  # 4
+# for n in my_generator:
+#     print(n)
+
+# def fibonacci(n):
+#     a, b = 0, 1
+#     i = 0
+#     while i < n:
+#         yield a
+#         a, b = b, a + b
+#         i += 1
+# print(list(fibonacci(5)))
+
+# number = "309"
+# print(sum(int(x) for x in number))
+
+# def even():
+#     e = 0
+#     while 1:
+#         yield e
+#         e += 2
+# g = even()
+# for _i in range(5):
+#     print(next(g))
+
+# dicts = [
+#     { "name": "Tom", "age": 10 },
+#     { "name": "Mark", "age": 5 },
+#     { "name": "Pam", "age": 7 },
+#     { "name": "Pam", "age": 9 },
+#     { "name": "Dick", "age": 12 }
+# ]
+# # generator returns matches one by one
+# g = (item for item in dicts if item["name"] == "Pam")
+# print(next(g))
+# print(next(g))
+# # list comprehension returns all matches
+# l = [x for x in dicts if x["name"] == "Pam"]
+# print(l)
+
+# =====================
+
+# sequence = [[2, 3], [2], [3], [4, 3]]
+# # if iterable on which list comprehension iterates over consists of objects (i.e. dicts or lists, not str or int)
+# # than LC returns list of references on that objects, because objects are mutable and str/int/.. are immutable
+# odd = [i for i in sequence if len(i) > 1]
+# # here we access original object [2, 3] and change it
+# odd[0][0] = 1
+# print(odd)  # [[1, 3], [4, 3]]
+# print(sequence)  # [[1, 3], [2], [3], [4, 3]]
+# # here we replace first element of 'odd' with new object
+# odd[0] = [3, 3]
+# print(odd)  # [[3, 3], [4, 3]]
+# print(sequence)  # [[1, 3], [2], [3], [4, 3]]
+
+# =====================
