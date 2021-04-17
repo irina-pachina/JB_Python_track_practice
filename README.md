@@ -54,9 +54,18 @@ Practice from the [Python track](https://hyperskill.org/tracks/2) by JetBrains.
    - Can read and output matrices, do operations on them - addition, multiplying by a constant, multiplying 2 matrices, compute the determinant of a square matrix, transpose and inverse them.
    - Uses *recursion* to calculate a determinant.
    
-9. [Easy Rider Bus Company](https://hyperskill.org/projects/128/stages/685/implement) (hard lvl)
+9. [Easy Rider Bus Company](https://hyperskill.org/projects/128) (hard lvl)
 
    Program's purpose is to test bus routes in JSON format against requirements:
    - Using *set* methods, *itertools* and *dpath.util* modules.
    - Using regular expression module *re* to check data correctness.
    - Using custom sorting to check arrival time consistency.
+   
+10. [Dominoes](https://hyperskill.org/projects/146)
+    
+    Implementation of the game of domino that:
+    - Creates domino set and distribute pieces using *itertools* and *random* modules.
+    - Uses "AI algorithm" for computer moves.
+    - Prints a game state after each move.
+    - Ends the game when there are no pieces in current player's hand or draw condition is reached.
+    - Checks if move is legal and reverse is needed.
